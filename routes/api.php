@@ -14,7 +14,7 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::middleware('basic.auth')->group(function () {
+Route::middleware('basic.auth', 'throttle:60,1')->group(function () {
     Route::apiResource('tasks', TaskController::class);
 });
 
