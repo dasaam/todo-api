@@ -24,8 +24,10 @@ git clone https://github.com/dasaam/todo-api.git
 cd todo-api
 ```
 
-### 2. Instalar dependencias
+### 2. Instalar dependencias y permisos
 ``` bash
+sudo chmod 775 -R todo-api
+sudo chmod www-data:tuusuario -R todo-api
 composer install
 ```
 
