@@ -1,0 +1,650 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API tareas",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://todo-api"
+        }
+    ],
+    "paths": {
+        "/api/tasks": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Obtener lista de tareas paginadas",
+                "operationId": "471d938a3bfaeb6fbd981d7c3e2728b0",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Items por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de tareas obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tareas obtenidas exitosamente"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 11
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://todo-api/api/tasks"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 20
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Task"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Crear una nueva tarea",
+                "description": "Crea una nueva tarea con los datos proporcionados. Valida los campos requeridos y retorna la tarea creada.",
+                "operationId": "f803ebdb2300acdb7e93bbe8d0b9a2e8",
+                "requestBody": {
+                    "description": "Datos de la tarea a crear",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "Título de la tarea (requerido)",
+                                        "type": "string",
+                                        "example": "Comprar víveres"
+                                    },
+                                    "description": {
+                                        "description": "Descripción detallada de la tarea",
+                                        "type": "string",
+                                        "example": "Comprar leche, huevos y pan en el supermercado",
+                                        "nullable": true
+                                    },
+                                    "completed": {
+                                        "description": "Indica si la tarea está completada",
+                                        "type": "boolean",
+                                        "default": false,
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tarea creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tarea creada exitosamente"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Comprar víveres"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Comprar leche, huevos y pan en el supermercado"
+                                                },
+                                                "completed": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-15 10:30:00"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-15 10:30:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "object",
+                                            "example": {
+                                                "title": [
+                                                    "The title field is required."
+                                                ],
+                                                "completed": [
+                                                    "The completed field must be true or false."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error inesperado en el servidor"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tasks/{id}": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Obtener una tarea específica por ID",
+                "description": "Retorna los detalles completos de una tarea específica. Si la tarea no existe, retorna un error 404.",
+                "operationId": "getTaskById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID numérico de la tarea",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1,
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tarea encontrada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tarea encontrada"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 20
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Comprar víveres"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Comprar leche, huevos y pan en el supermercado"
+                                                },
+                                                "completed": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-08-27T05:28:40.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-08-27T05:28:40.000000Z"
+                                                },
+                                                "deleted_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": null,
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tarea no encontrada"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Actualizar una tarea existente",
+                "description": "Actualiza una tarea existente. Se pueden actualizar uno o varios campos. Se debe enviar al menos un campo para actualizar.",
+                "operationId": "1aaf37e74360ef4c10fadaee02ae77fb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la tarea a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 3
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Campos a actualizar (al menos uno requerido)",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "Nuevo título de la tarea",
+                                        "type": "string",
+                                        "example": "Título actualizado"
+                                    },
+                                    "description": {
+                                        "description": "Nueva descripción de la tarea",
+                                        "type": "string",
+                                        "example": "Descripción actualizada",
+                                        "nullable": true
+                                    },
+                                    "completed": {
+                                        "description": "Estado de completado de la tarea",
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tarea actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tarea actualizada exitosamente"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Título actualizado"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Descripción actualizada"
+                                                },
+                                                "completed": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-15 10:30:00"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-16 15:45:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación o datos vacíos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object",
+                                    "oneOf": [
+                                        {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Se debe de mandar al menos el titulo para actualizar"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "errors": {
+                                                    "type": "object",
+                                                    "example": {
+                                                        "title": [
+                                                            "The title field must be a string."
+                                                        ],
+                                                        "completed": [
+                                                            "The completed field must be true or false."
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tarea no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error inesperado en el servidor"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Eliminar una tarea",
+                "description": "Elimina permanentemente una tarea específica basado en su ID. Retorna un código 204 sin contenido si la eliminación es exitosa.",
+                "operationId": "ad582480cd57c2a4e3b6a426943eeca5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la tarea a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1,
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Tarea eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "nullable": true
+                                },
+                                "example": []
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tarea no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Task": {
+                "title": "Task",
+                "required": [
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único de la tarea",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "description": "Título de la tarea",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Descripción detallada de la tarea",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "completed": {
+                        "description": "Indica si la tarea está completada",
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "created_at": {
+                        "description": "Fecha de creación",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Fecha de última actualización",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "description": "Fecha de elimiminacion (soft delete)",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Tasks",
+            "description": "Tasks"
+        }
+    ]
+}
