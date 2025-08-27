@@ -122,3 +122,6 @@ El proyecto tiene pruebas de la api las puedes correr de esta manera
 ``` bash
 php artisan test --filter=TaskApiTest
 ```
+
+#### Limite por ip
+El proyecto valida que por usuario solo se hagan 60 peticiones por minuto si se pasa mostrar el error HTTP 429 Too Many Requests
